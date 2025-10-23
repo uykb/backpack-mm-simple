@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backpack-market-maker:
+    image: ghcr.io/your-username/backpack-mm-simple:latest
+    container_name: backpack-market-maker
+    restart: unless-stopped
+    environment:
+      # 必需的环境变量 - API密钥
+      - BACKPACK_KEY=${BACKPACK_KEY}
+      - BACKPACK_SECRET=${BACKPACK_SECRET}
+      
+      # 可选环境变量
+      - BACKPACK_PROXY_WEBSOCKET=${BACKPACK_PROXY_WEBSOCKET:-}
+      - BASE_URL=${BASE_URL:-https://api.backpack.work}
+      
+      # 配置参数
+      - CAPITAL=${CAPITAL:-100}
+      - SYMBOL=${SYMBOL:-SOL_USDC_PERP}
+      - EXCHANGE=${EXCHANGE:-backpack}
+      - MARKET_TYPE=${MARKET_TYPE:-perp}
+      
+      # 数据库相关
+      - ENABLE_DATABASE=${ENABLE_DATABASE:-false}
+      
+    volumes:
+      # 挂载日志目录
+      - ./logs:/app/logs
+      
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 可选：日志收集器
+  logspout:
+    image: gliderlabs/logspout:latest
+    container_name: logspout
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - udp://logs.papertrailapp.com:12345  # 替换为您的日志服务
+    depends_on:
+      - backpack-market-maker
+    restart: unless-stopped
