@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-本项目提供了 Backpack Exchange 做市交易程序的 Docker 化部署方案，使用 Alpine Linux 镜像，支持根据不同的资金量自动配置对应的交易参数。支持 GitHub Container Registry (ghcr.io) 自动构建和容器平台部署。
+本项目提供了 Backpack Exchange 做市交易程序的 Docker 化部署方案，使用 Alpine Linux 镜像，支持根据不同的资金量自动配置对应的交易参数
 
 ## 支持的配置
 
@@ -18,12 +18,9 @@
 
 ### 方式一：GitHub Container Registry (推荐)
 
-#### 1. 自动构建镜像
-项目已配置 GitHub Actions，推送到 main/master 分支时会自动构建并发布到 ghcr.io。
-
 #### 2. 拉取最新镜像
 ```bash
-docker pull ghcr.io/your-username/backpack-mm-simple:latest
+docker pull ghcr.io/uykb/backpack-mm-simple:latest
 ```
 
 #### 3. 在生产环境运行
@@ -104,7 +101,7 @@ CAPITAL=1000 SYMBOL=BTC_USDC_PERP docker-compose up -d
 - `SYMBOL`: 交易对 (默认 SOL_USDC_PERP)
 
 #### 2. 使用 ghcr.io 镜像
-镜像地址：`ghcr.io/your-username/backpack-mm-simple:latest`
+镜像地址：`ghcr.io/uykb/backpack-mm-simple:latest`
 
 #### 3. 直接使用 Docker 运行
 
