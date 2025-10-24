@@ -64,6 +64,7 @@ case $CAPITAL in
         DURATION="3600"
         INTERVAL="30"
         MARKET_TYPE="spot"
+        QUANTITY="0.1"
         ;;
     futures)
         echo "直接運行 Maker-Taker 對沖永續"
@@ -101,7 +102,7 @@ case $CAPITAL in
         CMD="$CMD --quantity $QUANTITY --max-orders $MAX_ORDERS --target-position $TARGET_POSITION --max-position $MAX_POSITION --position-threshold $POSITION_THRESHOLD --inventory-skew $INVENTORY_SKEW --stop-loss $STOP_LOSS --take-profit $TAKE_PROFIT"
         ;;
     spot)
-        CMD="$CMD --strategy $STRATEGY"
+        CMD="$CMD --quantity $QUANTITY --strategy $STRATEGY"
         ;;
     futures)
         CMD="$CMD --quantity $QUANTITY --strategy $STRATEGY --target-position $TARGET_POSITION --max-position $MAX_POSITION --position-threshold $POSITION_THRESHOLD"
