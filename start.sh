@@ -55,9 +55,33 @@ case $CAPITAL in
         DURATION="99999"
         INTERVAL="10"
         ;;
+    spot)
+        echo "直接運行 Maker-Taker 對沖現貨"
+        EXCHANGE="backpack"
+        SYMBOL="SOL_USDC"
+        SPREAD="0.1"
+        STRATEGY="maker_hedge"
+        DURATION="3600"
+        INTERVAL="30"
+        MARKET_TYPE="spot"
+        ;;
+    futures)
+        echo "直接運行 Maker-Taker 對沖永續"
+        EXCHANGE="backpack"
+        MARKET_TYPE="perp"
+        SYMBOL="SOL_USDC_PERP"
+        SPREAD="0.01"
+        QUANTITY="0.1"
+        STRATEGY="maker_hedge"
+        TARGET_POSITION="0"
+        MAX_POSITION="5"
+        POSITION_THRESHOLD="2"
+        DURATION="3600"
+        INTERVAL="15"
+        ;;
     *)
         echo "错误: 不支持的资金量 $CAPITAL"
-        echo "支持的金额: 100, 500, 1000"
+        echo "支持的金额: 100, 500, 1000, spot, futures"
         exit 1
         ;;
 esac
@@ -75,6 +99,12 @@ case $CAPITAL in
         ;;
     500|1000)
         CMD="$CMD --quantity $QUANTITY --max-orders $MAX_ORDERS --target-position $TARGET_POSITION --max-position $MAX_POSITION --position-threshold $POSITION_THRESHOLD --inventory-skew $INVENTORY_SKEW --stop-loss $STOP_LOSS --take-profit $TAKE_PROFIT"
+        ;;
+    spot)
+        CMD="$CMD --strategy $STRATEGY"
+        ;;
+    futures)
+        CMD="$CMD --quantity $QUANTITY --strategy $STRATEGY --target-position $TARGET_POSITION --max-position $MAX_POSITION --position-threshold $POSITION_THRESHOLD"
         ;;
 esac
 
